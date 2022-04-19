@@ -7,6 +7,7 @@ import com.assignment.robot.service.RobotService;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ public class ReportController {
 
   private final RobotService robotService;
 
+  @Autowired
   public ReportController(ReportService reportService,
     RobotService robotService) {
     this.reportService = reportService;
