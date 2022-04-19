@@ -13,7 +13,7 @@ This is a system (API) that manages robot apocalypse.
 1. Java 11
 2. Docker
 
-## Usage
+## How to run the application locally
 - Run `./gradlew assemble`  - generate executable jar file in build/libs 
 - Run docker command `docker-compose up --build`.
 - it will start the app which listen to port 8080 (http://localhost:8080)
