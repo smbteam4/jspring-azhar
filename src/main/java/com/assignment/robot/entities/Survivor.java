@@ -1,6 +1,5 @@
 package com.assignment.robot.entities;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
