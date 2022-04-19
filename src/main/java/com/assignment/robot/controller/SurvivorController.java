@@ -41,7 +41,7 @@ public class SurvivorController {
 
   @PostMapping("/add")
   public ResponseEntity<Response> addSurvivor(@Valid @RequestBody Survivor survivor) {
-    survivorService.createSurvivor(survivor);
+    survivorService.addSurvivor(survivor);
     return new ResponseEntity<>(Response.builder()
       .message("Added Survivor Successfully")
       .success(true).build(), HttpStatus.CREATED);
@@ -50,7 +50,7 @@ public class SurvivorController {
 
   @PostMapping("/add-all")
   public ResponseEntity<Response> addSurvivorList(@Valid @RequestBody List<Survivor> survivors) {
-    survivorService.createSurvivorList(survivors);
+    survivorService.addMultipleSurvivors(survivors);
     return new ResponseEntity<>(Response.builder()
       .message("Added All Survivor Successfully")
       .success(true).build(), HttpStatus.CREATED);

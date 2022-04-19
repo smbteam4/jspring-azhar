@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface SurvivorService {
 
-  void createSurvivor(Survivor survivor);
+  void addSurvivor(Survivor survivor);
 
-  void createSurvivorList(List<Survivor> survivor);
+  void addMultipleSurvivors(List<Survivor> survivor);
 
   boolean updateInventory(String survivorId, ResourceInventory resource);
 

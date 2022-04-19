@@ -5,6 +5,7 @@ import com.assignment.robot.entities.InfectedLog;
 import com.assignment.robot.entities.Location;
 import com.assignment.robot.entities.ResourceInventory;
 import com.assignment.robot.entities.Survivor;
+import com.assignment.robot.exception.RobotApocalypseException;
 import com.assignment.robot.repository.InfectedLogRepository;
 import com.assignment.robot.repository.SurvivorRepository;
 import java.time.LocalDateTime;
@@ -20,7 +21,7 @@ public class SurvivorServiceImpl implements SurvivorService {
 
   private final SurvivorRepository survivorRepository;
   private final InfectedLogRepository infectedLogRepository;
-  private final Integer REPORTED_THRESHOLD = 3;
+  private final Integer REPORT_MAX_COUNT = 3;
 
   @Autowired
   public SurvivorServiceImpl(SurvivorRepository survivorRepository,
@@ -30,12 +31,12 @@ public class SurvivorServiceImpl implements SurvivorService {
   }
 
   @Override
-  public void createSurvivor(Survivor survivor) {
+  public void addSurvivor(Survivor survivor) {
     survivorRepository.save(survivor);
   }
 
   @Override
-  public void createSurvivorList(List<Survivor> survivors) {
+  public void addMultipleSurvivors(List<Survivor> survivors) {
     survivorRepository.saveAll(survivors);
   }
 
@@ -45,7 +46,7 @@ public class SurvivorServiceImpl implements SurvivorService {
     Optional<Survivor> survivorById = survivorRepository.findById(survivorId);
 
     if (survivorById.isEmpty()) {
-      throw new RuntimeException("Survivor Not exist");
+      throw new RobotApocalypseException("Survivor Not exist for updating inventory");
     }
     Survivor survivorToUpdate = survivorById.get();
     survivorToUpdate.setResource(new ResourceInventory(resource.getWater(),
@@ -61,7 +62,7 @@ public class SurvivorServiceImpl implements SurvivorService {
     Optional<Survivor> survivorById = survivorRepository.findById(survivorId);
 
     if (survivorById.isEmpty()) {
-      throw new RuntimeException("Survivor Not exist");
+      throw new RobotApocalypseException("Survivor Not exist");
     }
     Survivor survivorToUpdate = survivorById.get();
     survivorToUpdate.setLastKnownLocation(new Location(location.getLatitude(),
@@ -76,14 +77,14 @@ public class SurvivorServiceImpl implements SurvivorService {
     Optional<Survivor> survivorById = survivorRepository
       .findById(infectedLog.getInfectedSurvivorId());
     if (survivorById.isEmpty()) {
-      throw new RuntimeException("Survivor Not exist");
+      throw new RobotApocalypseException("Survivor Not exist");
     }
     Long reportedCount = infectedLogRepository
       .countByInfectedSurvivorIdAndReporterId(infectedLog.getInfectedSurvivorId(),
         infectedLog.getReporterId());
 
     if (reportedCount != 0) {
-      throw new RuntimeException("Already reported");
+      throw new RobotApocalypseException("Already reported");
     }
     infectedLog.setTimestamp(LocalDateTime.now());
     infectedLogRepository.save(infectedLog);
@@ -91,7 +92,7 @@ public class SurvivorServiceImpl implements SurvivorService {
     Long infectedCount = infectedLogRepository
       .countByInfectedSurvivorId(infectedLog.getInfectedSurvivorId());
 
-    if (infectedCount >= REPORTED_THRESHOLD) {
+    if (infectedCount >= REPORT_MAX_COUNT) {
       Survivor survivorToUpdate = survivorById.get();
       survivorToUpdate.setInfected(true);
       survivorRepository.save(survivorToUpdate);

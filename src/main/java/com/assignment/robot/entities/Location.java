@@ -15,8 +15,8 @@ import lombok.ToString;
 
 public class Location {
 
-  @NotNull
+  @NotNull(message = "Latitude is required.")
   private String latitude;
-  @NotNull
+  @NotNull(message = "Longitude is required.")
   private String longitude;
 }

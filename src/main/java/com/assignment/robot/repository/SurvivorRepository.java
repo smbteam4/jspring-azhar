@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface SurvivorRepository extends MongoRepository<Survivor, String> {
 
   List<Survivor> findByIsInfectedTrue();
+  List<Survivor> findByIsInfectedFalse();
 
   Long countByIsInfectedTrue();
 

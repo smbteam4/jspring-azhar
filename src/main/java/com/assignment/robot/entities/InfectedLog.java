@@ -20,11 +20,10 @@ public class InfectedLog {
 
   @Id
   private String id;
-  @NotNull
+  @NotNull(message = "Infected Survivor's Id is required.")
   private String infectedSurvivorId;
   private LocalDateTime timestamp;
-  @NotNull
+  @NotNull(message = "Reporting Survivor's Id is required.")
   private String reporterId;
-
 
 }

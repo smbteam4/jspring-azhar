@@ -4,7 +4,6 @@ import com.assignment.robot.entities.Survivor;
 import com.assignment.robot.repository.SurvivorRepository;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +21,12 @@ public class ReportServiceImpl implements ReportService {
 
   @Override
   public List<Survivor> getInfectedSurvivors() {
-    List<Survivor> survivors = survivorRepository.findAll();
-    return survivors.stream().filter(Survivor::isInfected).collect(Collectors.toList());
+    return survivorRepository.findByIsInfectedTrue();
   }
 
   @Override
   public List<Survivor> getNonInfectedSurvivors() {
-    return survivorRepository.findByIsInfectedTrue();
+    return survivorRepository.findByIsInfectedFalse();
   }
 
   @Override

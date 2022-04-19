@@ -14,9 +14,9 @@ import lombok.ToString;
 
 public class ResourceInventory {
 
-  private String water;
   private String food;
-  private String medication;
   private String ammunition;
+  private String water;
+  private String medication;
 
 }
