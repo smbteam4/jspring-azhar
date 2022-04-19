@@ -1,0 +1,19 @@
+version: "3"
+services:
+  mongo:
+    container_name: mongo-robot
+    image: mongo:4.0.12
+    tmpfs: /data/db
+    ports:
+      - "27017:27017"
+
+  backend:
+    container_name: robot-app
+    restart: always
+    build: ./
+    ports:
+      - "8080:8080"
+    links:
+      - mongo
+    environment:
+      WAIT_HOSTS: mongo:27017
